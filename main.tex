@@ -1,6 +1,7 @@
 \documentclass[preprint, authoryear]{elsarticle}
+\journal{TBA}
 
-% packages
+% ------------- PACKAGES ----------------------
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{johd}
@@ -19,9 +20,7 @@
 \usepackage{array}
 \usepackage{setspace}
 
-\journal{Remote Sensing of Environment}
-
-% ADDING LINENUMBERS FOR REVIEWING:
+% adding line numbers for reviewing.
 \usepackage{lineno}
     \linenumbers
 
@@ -30,7 +29,7 @@
 \begin{document}
 \begin{frontmatter}
 
-\title{Evaluation on the Necessity of Sentinel-1 TOPS Enhanced Spectral Diversity for InSAR}
+\title{Is ESD still a must for Sentinel-1 TOPS InSAR?}
 \author[NWPU]{Mengwei Li}
 \author[NWPU]{Yuxiao Qin\corref{cor}}
 
@@ -62,15 +61,41 @@ TBA
 % -------------------------------------------------------------
 
 \section{Introduction}
-The Sentinel-1(S-1) satellite is an earth observation satellite of the ESA Copernicus program. It carries a C-band synthetic aperture radar imaging sensor and has a scanning imaging mode to achieve wide-area coverage. S-1’s new imaging mode, Terrain Observation by Progressive Scans (TOPS) mode, better realizes the routine operation of wide-area surface observation. However, the Doppler frequency change will cause the phase slope, especially the influence on the azimuth direction can not be eliminated \cite{A_Study_of_Sentinel-1_TOPS_Mode_Co-registration}. Therefore, this mode requires higher coregistration accuracy for subsequent processing and application. The conventional initial coregistration method may not meet the corresponding accuracy requirements, and the enhanced spectral diversity (ESD) method must be used for fine coregistration to obtain the correct interferogram. \par
+
+Sentinel-1 (S-1) is the most profoundly influential and most widely utilized Synthetic Aperture Radar Interferometry (InSAR) mission ever in the history of InSAR earth observation. The success of S-1 is partially attributed to its unique Terrain Observation by Progressive Scans (TOPS) mode, designed to image a much wider area when compared to the conventional stripmap mode. Up till now, it has been widely acknowledged that the Enhanced Spectral Diversity (ESD) is an essential step in coregistration for achieving the 0.001-pixel coregistration accuracy for InSAR purposes [need at least 10 references].
+
+% Why ESD is important
+
+The essence of ESD is to use the phase difference of the overlapping areas between bursts to obtain the shift required for coregistration. The larger the satellite steering angle is, the more sensitive it is to the coregistration error and the higher the coregistration accuracy is \cite{TOPS_Interferometry_With_TerraSAR-X}. 
+
+% The flaws of ESD
+Despite its popularity, there are still a few notable unresolved issues with ESD. To start with, ESD is based on the assumption that the ``differential interferogram phase'' used for ESD purely comes from miscoregistration error. However, the assumption does not hold because multiple factors can contribute to the phase difference, for example, north-south ground displacements or APS and ionosphere path delays difference. In most cases, these factors only contribute to a negligible to a small portion of the total ``differential interferogram phase''. Nevertheless, a small bias might still be introduced by applying the ESD. In the second place, the estimation quality of miscoregistration in ESD is based on the coherence of the differential interferogram phase. In places with low coherence, the estimated miscoregistration would be biased by the noise, potentially introducing an estimation error to the final product. In the last place, even if we assume that ESD successfully estimates the miscoregistration error without introducing any more bias or error, another resampling process would still be neccessary for correcting the miscoregistration error. Resampling is usually a very resource-consuming step in InSAR processing, especially nowadays when we are dealing with more data than ever. A second resampling process would be a very heavy burden for big data processing. 
+
+
+
+
+
+
+If the orbit accuracy is high enough, only the geometrical coregistration can meet the demand, then ESD will not be necessary for SAR Interferometry (InSAR) and multi-temporal InSAR (MT-InSAR). \par
+
+
+
+% Recent work of ESD
+
+
+% What we try to do
+
+
+
+
+
+However, the Doppler frequency change will cause the phase slope, especially the influence on the azimuth direction can not be eliminated \cite{A_Study_of_Sentinel-1_TOPS_Mode_Co-registration}. Therefore, this mode requires higher coregistration accuracy for subsequent processing and application. The conventional initial coregistration method may not meet the corresponding accuracy requirements, and the enhanced spectral diversity (ESD) method must be used for fine coregistration to obtain the correct interferogram. \par
 
 The geometrical coregistration is one of the most widely-applied coregistration methods. The essence of this method is to obtain the global shift between the master and slave images based on the zero-Doppler geometry of Synthetic Aperture Radar (SAR) images, and its accuracy is mainly affected by the satellite orbit. After using precise orbit products, the orbit accuracy of S-1 satellite is controlled within 5cm \cite{Interferometric_Processing_of_Sentinel-1_TOPS_Data, A_Study_of_Sentinel-1_TOPS_Mode_Co-registration}. In particular, after the orbit adjustment in 2020, it is found in the report of ESA COPERNICUS POD REGULAR SERVICE REVIEW that the orbit accuracy evaluation results of S-1A satellite are gradually improved. Mean of daily RMS less than 1.5cm \cite{copernicus_review_2020.10-2020.12, copernicus_review_2021.01-2021.12, copernicus_review_2022.01-2022.12}. The control of satellite orbit is beneficial to improve the accuracy of the geometrical coregistration. \par
 
-The essence of ESD is to use the phase difference of the overlapping areas between bursts to obtain the shift required for coregistration. The larger the satellite steering angle is, the more sensitive it is to the coregistration error and the higher the coregistration accuracy is \cite{TOPS_Interferometry_With_TerraSAR-X}. However, there is a certain risk to rely solely on the phase difference, which may be affected by large ground displacement, nonstationary miscoregistration and so on. Eventually, the reliability and validity of the valuation are low. At the same time, the mismatch accuracy of ESD is affected by the coherence between SAR images, especially the time decorrelation. The low coherence interferograms can lead to inaccurate estimation of the azimuth miscoregistration. If the orbit accuracy is high enough, only the geometrical coregistration can meet the demand, then ESD will not be necessary for SAR Interferometry (InSAR) and multi-temporal InSAR (MT-InSAR). \par
+In historical studies, the ESD method has been applied to TerraSAR-X and S-1 data processing, and has shown good coregistration results \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts, Interferometric_Processing_of_Sentinel-1_TOPS_Data}. The network-based ESD method estimates mismatches by overlapping interferograms of short-term baselines, reducing the negative impact of temporal coherence \cite{A_Network-Based_Enhanced_Spectral_Diversity_Approach_for_TOPS_Time-Series_Analysis}. At present, ESD has become a very critical step in TOPS mode data processing with its extremely high coregistration accuracy.
 
-In historical studies, the ESD method has been applied to TerraSAR-X and S-1 data processing, and has shown good coregistration results \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts, Interferometric_Processing_of_Sentinel-1_TOPS_Data}. The network-based ESD method estimates mismatches by overlapping interferograms of short-term baselines, reducing the negative impact of temporal coherence \cite{A_Network-Based_Enhanced_Spectral_Diversity_Approach_for_TOPS_Time-Series_Analysis}. At present, ESD has become a very critical step in TOPS mode data processing with its extremely high coregistration accuracy. \par
-
-In view of the above situation and thinking, this paper uses the ESD method to calculate the residual error of geometrical coregistration with the assistance of the precision orbit data released by the ESA, judges and evaluates the necessity of the ESD method with the assistance of higher precision orbit data, and studies the method of improving the coregistration efficiency. In the part of ‘Theory’, the requirements of S-1 TOPS coregistration are introduced, and the relationship between geometrical coregistration, ESD and precise orbit data is described. In the part of ‘Method’, the master image correction method and the coregistration method based on phase without resampling are proposed, which greatly improves the coregistration efficiency. In the part of ‘Experiment’, through the interference comparison experiment of a large number of data, the influence of precise orbit data on the residual error of geometrical coregistration is analyzed, and the reliability of ESD results is judged. Finally, the change and magnitude of residual error are explained, and the necessity of ESD is suggested. \par
+In view of the above situation and thinking, this paper uses the ESD method to calculate the residual error of geometrical coregistration with the assistance of the precision orbit data released by the ESA, judges and evaluates the necessity of the ESD method with the assistance of higher precision orbit data, and studies the method of improving the coregistration efficiency. In the part of ‘Theory’, the requirements of S-1 TOPS coregistration are introduced, and the relationship between geometrical coregistration, ESD and precise orbit data is described. In the part of ‘Method’, the master image correction method and the coregistration method based on phase without resampling are proposed, which greatly improves the coregistration efficiency. In the part of ‘Experiment’, through the interference comparison experiment of a large number of data, the influence of precise orbit data on the residual error of geometrical coregistration is analyzed, and the reliability of ESD results is judged. Finally, the change and magnitude of residual error are explained, and the necessity of ESD is suggested.
 
 
 \section{Theory}
@@ -80,9 +105,9 @@ In view of the above situation and thinking, this paper uses the ESD method to c
 The S-1 satellite mission is to provide an all-weather, day-and-night supply of imagery of Earth’s surface. Among them, TOPS pattern for S-1 Interferometric Wide swath (IW) mode is the main acquisition mode on land, which meets the needs of large-scale land system monitoring, and is also the target mode of this paper. The TOPS pattern for S-1 IW mode is shown in \ref{fig_1}. The corresponding parameters are shown in \ref{table_1}. It can be seen from \ref{fig_1} that in TOPS mode, the satellite has the characteristics of squint imaging, that is, there is squint angle. The greater the change of the squint angle in the azimuth direction, the more obvious the interference phase difference will be generated, which is also called the phase slope. Fundamentally, the sweeping of antenna introduces a quadratic Doppler frequency in azimuth that exceeds the Pulse Repetition Frequency (PRF). Especially at the burst edge, the phase ramp phenomenon is the most obvious, which will lead to interferogram distortion. Therefore, this pattern requires higher coregistration accuracy \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts}. \par
 
 \begin{figure}
-	\centering 
-	\includegraphics[width=0.8\textwidth]{figure/TOPS Scan pattern for S-1 IW mode.png}	
-	\caption{TOPS Scan pattern for S-1 IW mode} 
+	\centering
+	\includegraphics[width=0.8\textwidth]{figure/TOPS Scan pattern for S-1 IW mode.png}
+	\caption{TOPS Scan pattern for S-1 IW mode}
 	\label{fig_1}%
 \end{figure}
 
@@ -151,9 +176,9 @@ The S-1 TOPS mode uses the ESD for high-precision coregistration, as shown in \r
 \noindent where $\Delta f_{\rm DC}^{\rm overlap}$ is the Doppler centroid span in the overlap area. In this way, the unique value of $\Delta x$ can be obtained through observations and satellite parameters. \par
 
 \begin{figure}
-	\centering 
-	\includegraphics[width=0.6\textwidth]{figure/The principle of ESD.png}	
-	\caption{The principle of ESD} 
+	\centering
+	\includegraphics[width=0.6\textwidth]{figure/The principle of ESD.png}
+	\caption{The principle of ESD}
 	\label{fig_2}%
 \end{figure}
 
@@ -288,9 +313,9 @@ The S-1 IW TOPS mode is affected by the change of Doppler frequency, and require
 Based on background investigation and theoretical analysis, the factors that need to be considered in the experiment are divided into three categories. The first category is the study area, including the study area with different coherence and the study area located at different latitudes. The second category is SAR data, including ascending or descending, and different numbers of bursts. The third category is precise orbit data, including data before adjustment configuration from 2019 to 2020, data updated after adjustment configuration from 2019 to 2020, and data with higher precision from 2022 to 2023. The above different factors were compared, and Shuttle Radar Topography Mission (SRTM) 30m was used as external DEM data. Since the accuracy of ESD coregistration is very high, the ESD result is used as the reference value of the ‘true value’ in this experiment. Therefore, the azimuth shift difference and phase deviation between the geometrical coregistration result and the reference value are used as the quantitative evaluation indexes of the residual error, and the cross-interferogram between the geometrical coregistration result and the reference value is used as the qualitative evaluation index of the residual error. The experimental design was two groups, as shown in \ref{fig_3}. \par
 
 \begin{figure}
-	\centering 
-	\includegraphics[width=0.7\textwidth]{figure/Experimental flow chart.png}	
-	\caption{Experimental flow chart} 
+	\centering
+	\includegraphics[width=0.7\textwidth]{figure/Experimental flow chart.png}
+	\caption{Experimental flow chart}
 	\label{fig_3}%
 \end{figure}
 
@@ -832,7 +857,7 @@ Shift & Mean value & -1.44 & -1.44 & -2.08 & -1.02 & -0.64 & -4.09 & -3.32 & -3.
 \footnotesize
     \item[*] Outliers other than $\mu \pm 1.5\sigma$ (probability 86.64\%) are excluded to prevent influencing statistical results.
 \end{tablenotes}
-    
+
 \end{threeparttable}
 \end{table}
 
@@ -925,7 +950,7 @@ In this paper, the residual error after geometrical coregistration is judged by 
 (1) The experimental results show that the residual error of geometrical coregistration does not decrease significantly from 2019 to 2020 regardless of the precise orbit data before and after adjustment. Taking the Milan ascending and descending experiments from May 2019 to September 2020 as an example, we calculate the difference between the azimuth shift of the slave images relative to the master image before and after the precise orbit configuration, as shown in the \ref{fig_8}. It can be seen from the \ref{fig_8} that the adjustment of the instantaneous position of the satellite in the azimuth direction is controlled within 4cm. Interference experiments show that the adjustment of this order of magnitude will not have a significant impact on geometrical coregistration. In addition, the same ARP and ANTEX configurations are not strictly used in the accuracy index during this period, and it is speculated that the accuracy of the control of the orbit itself may meet the requirements. Coregistration is a relative quantity between the master image and the slave image, while the orbit positioning accuracy is an absolute quantity. The \ref{eq_9} shows the mathematical relationship between the two, and most of the experimental results are within the accuracy range. \par
 
 \begin{figure}
-    \centering 
+    \centering
     \begin{subfigure}{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/The azimuth shift of the slave images relative to the master image before and after the precise orbit configuration/asc.PNG}
@@ -938,7 +963,7 @@ In this paper, the residual error after geometrical coregistration is judged by 
         \caption{Milan descending}
         \label{fig_8b}
     \end{subfigure}
-    \caption{The azimuth shift of the slave images relative to the master image before and after the precise orbit configuration} 
+    \caption{The azimuth shift of the slave images relative to the master image before and after the precise orbit configuration}
     \label{fig_8}
 \end{figure}
 
