@@ -1,181 +1,67 @@
-%% 
-%% Copyright 2019-2021 Elsevier Ltd
-%% 
-%% This file is part of the 'CAS Bundle'.
-%% --------------------------------------
-%% 
-%% It may be distributed under the conditions of the LaTeX Project Public
-%% License, either version 1.2 of this license or (at your option) any
-%% later version.  The latest version of this license is in
-%%    http://www.latex-project.org/lppl.txt
-%% and version 1.2 or later is part of all distributions of LaTeX
-%% version 1999/12/01 or later.
-%% 
-%% The list of all files belonging to the 'CAS Bundle' is
-%% given in the file `manifest.txt'.
-%% 
-%% Template article for cas-sc documentclass for 
-%% single column output.
+\documentclass[preprint, authoryear]{elsarticle}
 
-\documentclass[a4paper,fleqn]{cas-sc}
-
-% If the frontmatter runs over more than one page
-% use the longmktitle option.
-
-%\documentclass[a4paper,fleqn,longmktitle]{cas-sc}
-
-%\usepackage[numbers]{natbib}
-%\usepackage[authoryear]{natbib}
-\usepackage[authoryear,longnamesfirst]{natbib}
-
-%%%Author macros
-\def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
-\tsc{WGM}
-\tsc{QE}
-%%%
-
-% Uncomment and use as if needed
-%\newtheorem{theorem}{Theorem}
-%\newtheorem{lemma}[theorem]{Lemma}
-%\newdefinition{rmk}{Remark}
-%\newproof{pf}{Proof}
-%\newproof{pot}{Proof of Theorem \ref{thm}}
-% 加入宏包
-\usepackage{graphicx}
+% packages
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{johd}
+\usepackage{amsmath,bm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{rotating}
+\usepackage{caption}
 \usepackage{subcaption}
-\usepackage{lscape}
-\usepackage{longtable}
 \usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{threeparttable}
+\usepackage[table,xcdraw]{xcolor}
+\renewcommand{\arraystretch}{1.25}
+\usepackage{array}
+\usepackage{setspace}
+
+\journal{Remote Sensing of Environment}
+
+% ADDING LINENUMBERS FOR REVIEWING:
+\usepackage{lineno}
+    \linenumbers
+
+% ------------- DOCUMENT ----------------------
 
 \begin{document}
-\let\WriteBookmarks\relax
-\def\floatpagepagefraction{1}
-\def\textpagefraction{.001}
+\begin{frontmatter}
 
-% Short title
-% \shorttitle{<short title of the paper for running head>}   
-\shorttitle{short title of the paper for running head}    
+\title{Evaluation on the Necessity of Sentinel-1 TOPS Enhanced Spectral Diversity for InSAR}
+\author[NWPU]{Mengwei Li}
+\author[NWPU]{Yuxiao Qin\corref{cor}}
 
-% Short author
-% \shortauthors{<short author list for running head>} 
-\shortauthors{short author list for running head}  
-
-% Main title of the paper
-\title [mode = title]{Evaluation on the Necessity of Sentinel-1 TOPS Enhanced Spectral Diversity for InSAR} 
-
-% Title footnote mark
-% eg: \tnotemark[1]
-% \tnotemark[<tnote number>]
-\tnotemark[tnote number] 
-
-% 文献引用
-% Title footnote 1.
-% eg: \tnotetext[1]{Title footnote text}
-% \tnotetext[<tnote number>]{<tnote text>} 
-
-% First author
-%
-% Options: Use if required
-% eg: \author[1,3]{Author Name}[type=editor,
-%       style=chinese,
-%       auid=000,
-%       bioid=1,
-%       prefix=Sir,
-%       orcid=0000-0000-0000-0000,
-%       facebook=<facebook id>,
-%       twitter=<twitter id>,
-%       linkedin=<linkedin id>,
-%       gplus=<gplus id>]
-
-\author[1]{Mengwei Li}
-
-% Corresponding author indication
-% \cormark[<corr mark no>]
-
-% Footnote of the first author
-% \fnmark[<footnote mark no>]
-
-% Email id of the first author
-% \ead{<email address>}
-\ead{limengwei@mail.nwpu.edu.cn}
-
-% URL of the first author
-% \ead[url]{<URL>}
-
-% Credit authorship
-% eg: \credit{Conceptualization of this study, Methodology, Software}
-% \credit{<Credit authorship details>}
-
-% Address/affiliation
-\affiliation[1]{organization={School of Electronics and Information},
-            addressline={Northwestern Polytechnical University}, 
+\affiliation[NWPU]{organization={School of Electronics and Information, Northwestern Polytechnical University},
             city={Xi'an},
-%          citysep={}, % Uncomment if no comma needed between city and postcode
-            postcode={710129}, 
-            state={Shaanxi},
-            country={China}}
+            postcode={710129},
+            country={P.R.China}}
 
-\author[1]{Yuxiao Qin}
-\cormark[1]
+\cortext[cor]{Corresponding author}
 
-% Footnote of the second author
-% \fnmark[2]
-
-% Email id of the second author
-\ead{yuxiao.qin@nwpu.edu.cn}
-
-% URL of the second author
-% \ead[url]{}
-
-% Credit authorship
-% \credit{}
-
-% Address/affiliation
-% \affiliation[<aff no>]{organization={},
-%             addressline={}, 
-%             city={},
-% %          citysep={}, % Uncomment if no comma needed between city and postcode
-%             postcode={}, 
-%             state={},
-%             country={}}
-
-% Corresponding author text
-\cortext[1]{Corresponding author}
-
-% Footnote text
-\fntext[1]{}
-
-% For a title note without a number/mark
-%\nonumnote{}
-
-% Here goes the abstract
 \begin{abstract}
-Since Sentinel-1 (S-1) was launched in 2014, it has become the most influential SAR satellite in the field of earth observation with its open source policy and rich database. Among them, the existence of the special ‘phase slope’ of the TOPS mode of S-1 default imaging leads to the coregistration of this mode must meet the 0.001 pixel accuracy. Based on this, the use of enhanced spectral diversity (ESD) method after geometrical coregistration has become a recognized necessary step in the conventional coregistration of S-1 TOPS data. However, in recent years, ESA official reports have shown that the 3D RMS of precise orbit data has been better than 1.5 cm, and the corresponding theoretical coregistration accuracy is 0.0015 pixel, so there is no need for ESD secondary resampling to reduce the computational overhead. Whether this inference is true or not needs to be quantitatively verified. Based on the above background, this paper studies the necessity of S-1 TOPS ESD coregistration based on ESA SNAP Sentinel-1 platform for precision orbit data released by ESA. The experimental results show that the accuracy of geometrical coregistration depends on the difference in the accuracy of the repeat orbit. The current precision orbit data released by the ESA has not had a significant impact on the accuracy of geometrical coregistration. At the same time, it is found that the error of geometrical coregistration mainly comes from the orbit error of the master image when registering multiple images of the repeat orbit. When the master image has no orbit error, the standard deviation of the coregistration error caused by the relative orbit error of the slave images relative to the master image is only 0.002 pixel. Experiments show that the difference of ESD offset estimated by different bursts of the same track data is mostly more than 0.001 pixel, but in theory, the ESD offset of different bursts of the same track should be a constant value. Therefore, it is speculated that the coregistration error of 0.002 pixel may mainly come from the atmosphere, not the orbit error. The conclusion shows that if the constant value is used for correction of different bursts in the same orbit, it is possible to mistake the atmospheric error as the coregistration error correction. Based on the above content, this paper gives corresponding suggestions. For time series experiments, the influence of orbit error on phase is usually reduced with time series regression analysis. In the secondary coregistration process, the orbit error of the master image can be corrected by calculating the mean value of multiple interferograms, and the use of ESD may introduce additional errors. For a single image experiment, the orbit error of the master image cannot be effectively estimated. When ESD must be used, this paper proposes a coregistration method based on phase without resampling, which can save 40\% of the calculation time.
+TBA
+%Since Sentinel-1 (S-1) was launched in 2014, it has become the most influential SAR satellite in the field of earth observation with its open source policy and rich database. Among them, the existence of the special ‘phase slope’ of the TOPS mode of S-1 default imaging leads to the coregistration of this mode must meet the 0.001 pixel accuracy. Based on this, the use of enhanced spectral diversity (ESD) method after geometrical coregistration has become a recognized necessary step in the conventional coregistration of S-1 TOPS data. However, in recent years, ESA official reports have shown that the 3D RMS of precise orbit data has been better than 1.5 cm, and the corresponding theoretical coregistration accuracy is 0.0015 pixel, so there is no need for ESD secondary resampling to reduce the computational overhead. Whether this inference is true or not needs to be quantitatively verified. Based on the above background, this paper studies the necessity of S-1 TOPS ESD coregistration based on ESA SNAP Sentinel-1 platform for precision orbit data released by ESA. The experimental results show that the accuracy of geometrical coregistration depends on the difference in the accuracy of the repeat orbit. The current precision orbit data released by the ESA has not had a significant impact on the accuracy of geometrical coregistration. At the same time, it is found that the error of geometrical coregistration mainly comes from the orbit error of the master image when registering multiple images of the repeat orbit. When the master image has no orbit error, the standard deviation of the coregistration error caused by the relative orbit error of the slave images relative to the master image is only 0.002 pixel. Experiments show that the difference of ESD offset estimated by different bursts of the same track data is mostly more than 0.001 pixel, but in theory, the ESD offset of different bursts of the same track should be a constant value. Therefore, it is speculated that the coregistration error of 0.002 pixel may mainly come from the atmosphere, not the orbit error. The conclusion shows that if the constant value is used for correction of different bursts in the same orbit, it is possible to mistake the atmospheric error as the coregistration error correction. Based on the above content, this paper gives corresponding suggestions. For time series experiments, the influence of orbit error on phase is usually reduced with time series regression analysis. In the secondary coregistration process, the orbit error of the master image can be corrected by calculating the mean value of multiple interferograms, and the use of ESD may introduce additional errors. For a single image experiment, the orbit error of the master image cannot be effectively estimated. When ESD must be used, this paper proposes a coregistration method based on phase without resampling, which can save 40\% of the calculation time.
+%
 \end{abstract}
 
-% Use if graphical abstract is present
-%\begin{graphicalabstract}
-%\includegraphics{}
-%\end{graphicalabstract}
+\begin{keyword}
+TBA
+%Enhanced spectral diversity \sep Sentinel-1 \sep Terrain observation by progressive scans \sep Coregistration
+%
+\end{keyword}
 
-% Research highlights
-\begin{highlights}
-\item 
-\item 
-\item 
-\end{highlights}
+\end{frontmatter}
 
-% Keywords
-% Each keyword is seperated by \sep
-\begin{keywords}
-Enhanced spectral diversity \sep Sentinel-1 \sep Terrain observation by progressive scans \sep Coregistration
-\end{keywords}
 
-\maketitle
 
-% Main text
-\section{Introduction}\label{Introduction}
+% -------------------------------------------------------------
+%                        INTRODUCTION
+% -------------------------------------------------------------
 
+\section{Introduction}
 The Sentinel-1(S-1) satellite is an earth observation satellite of the ESA Copernicus program. It carries a C-band synthetic aperture radar imaging sensor and has a scanning imaging mode to achieve wide-area coverage. S-1’s new imaging mode, Terrain Observation by Progressive Scans (TOPS) mode, better realizes the routine operation of wide-area surface observation. However, the Doppler frequency change will cause the phase slope, especially the influence on the azimuth direction can not be eliminated \cite{A_Study_of_Sentinel-1_TOPS_Mode_Co-registration}. Therefore, this mode requires higher coregistration accuracy for subsequent processing and application. The conventional initial coregistration method may not meet the corresponding accuracy requirements, and the enhanced spectral diversity (ESD) method must be used for fine coregistration to obtain the correct interferogram. \par
 
 The geometrical coregistration is one of the most widely-applied coregistration methods. The essence of this method is to obtain the global shift between the master and slave images based on the zero-Doppler geometry of Synthetic Aperture Radar (SAR) images, and its accuracy is mainly affected by the satellite orbit. After using precise orbit products, the orbit accuracy of S-1 satellite is controlled within 5cm \cite{Interferometric_Processing_of_Sentinel-1_TOPS_Data, A_Study_of_Sentinel-1_TOPS_Mode_Co-registration}. In particular, after the orbit adjustment in 2020, it is found in the report of ESA COPERNICUS POD REGULAR SERVICE REVIEW that the orbit accuracy evaluation results of S-1A satellite are gradually improved. Mean of daily RMS less than 1.5cm \cite{copernicus_review_2020.10-2020.12, copernicus_review_2021.01-2021.12, copernicus_review_2022.01-2022.12}. The control of satellite orbit is beneficial to improve the accuracy of the geometrical coregistration. \par
@@ -187,7 +73,8 @@ In historical studies, the ESD method has been applied to TerraSAR-X and S-1 dat
 In view of the above situation and thinking, this paper uses the ESD method to calculate the residual error of geometrical coregistration with the assistance of the precision orbit data released by the ESA, judges and evaluates the necessity of the ESD method with the assistance of higher precision orbit data, and studies the method of improving the coregistration efficiency. In the part of ‘Theory’, the requirements of S-1 TOPS coregistration are introduced, and the relationship between geometrical coregistration, ESD and precise orbit data is described. In the part of ‘Method’, the master image correction method and the coregistration method based on phase without resampling are proposed, which greatly improves the coregistration efficiency. In the part of ‘Experiment’, through the interference comparison experiment of a large number of data, the influence of precise orbit data on the residual error of geometrical coregistration is analyzed, and the reliability of ESD results is judged. Finally, the change and magnitude of residual error are explained, and the necessity of ESD is suggested. \par
 
 
-\section{Theory}\label{Theory}
+\section{Theory}
+\label{sec:2}
 
 \subsection{S-1 TOPS Coregistration Accuracy Requirement}
 The S-1 satellite mission is to provide an all-weather, day-and-night supply of imagery of Earth’s surface. Among them, TOPS pattern for S-1 Interferometric Wide swath (IW) mode is the main acquisition mode on land, which meets the needs of large-scale land system monitoring, and is also the target mode of this paper. The TOPS pattern for S-1 IW mode is shown in \ref{fig_1}. The corresponding parameters are shown in \ref{table_1}. It can be seen from \ref{fig_1} that in TOPS mode, the satellite has the characteristics of squint imaging, that is, there is squint angle. The greater the change of the squint angle in the azimuth direction, the more obvious the interference phase difference will be generated, which is also called the phase slope. Fundamentally, the sweeping of antenna introduces a quadratic Doppler frequency in azimuth that exceeds the Pulse Repetition Frequency (PRF). Especially at the burst edge, the phase ramp phenomenon is the most obvious, which will lead to interferogram distortion. Therefore, this pattern requires higher coregistration accuracy \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts}. \par
@@ -200,9 +87,14 @@ The S-1 satellite mission is to provide an all-weather, day-and-night supply of 
 \end{figure}
 
 \begin{table}[htbp]
+\centering
 \caption{SLC product parameters for S-1 IW mode}
 \label{table_1}
-\begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}p{0.4\linewidth}p{0.5\linewidth}@{}}
+\footnotesize % 定义字体大小
+\setstretch{1} % 设置单倍行距
+\newlength{\tblwidth} % 定义新长度\tblwidth
+\setlength{\tblwidth}{0.7\textwidth} % 设置\tblwidth为特定值
+\begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}p{0.3\linewidth}p{0.4\linewidth}@{}}
 \toprule
 Name & Value \\ % Table header row
 \midrule
@@ -212,7 +104,7 @@ iw1 & iw2 & iw3 \\
 \end{tabular} \\
 Incidence angle &
 \begin{tabular}[t]{@{}p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}@{}}
-32.9° & 38.3° & 43.1° \\
+32.9deg & 38.3deg & 43.1deg \\
 \end{tabular} \\
 Doppler centroid span &
 \begin{tabular}[t]{@{}p{0.25\linewidth}p{0.25\linewidth}p{0.25\linewidth}@{}}
@@ -220,7 +112,7 @@ Doppler centroid span &
 \end{tabular} \\
 Azimuth pixel spacing & 14.1m \\
 Azimuth sampling frequency & 486.49Hz \\
-Squint angle & 0.6° \\
+Squint angle & 0.6deg \\
 Burst length & 2.75s \\
 Ground swath width & 250km \\
 Slice length & 170km \\
@@ -237,7 +129,8 @@ The miscoregistration time  between the master image and the slave image causes 
     \label{eq_1}
 \end{equation}
 
-\noindent where $\Delta f_{\rm DC}$ is Doppler centroid span over azimuth, $f_{\rm az}$ is azimuth sampling frequency, and $\Delta x$ is the pixel miscoregistration. In order to limit the phase slope, it is necessary to control the phase deviation at 1\%, that is, 3.6° (or 0.0628 radian) \cite{Interferometric_Processing_of_Sentinel-1_TOPS_Data}. The phase error of 0.0628 radian is transmitted to the deformation error of 0.027cm, which can be ignored for millimeter-level deformation monitoring. In the case of ideal vertical baseline, the phase error of 0.0628 radian is transmitted to the elevation error of tens of centimeters \cite{Effects_of_Phase_Error_on_the_Relative_Height_Accuracy_in_Interferometric_Synthetic_Aperture_Radar}, which can be ignored for meter-level elevation monitoring. Therefore, the phase deviation is controlled within 1\%, which meets the measurement accuracy requirements. Taking the maximum  of 5.2kHz, the miscoregistration time is 1.92$\rm\mu$s. Taking Azimuth sampling frequency of 486.49 Hz, the miscoregistration time is converted to 0.001 pixel. \par
+\noindent where $\Delta f_{\rm DC}$ is Doppler centroid span over azimuth, $f_{\rm az}$ is azimuth sampling frequency, and $\Delta x$ is the pixel miscoregistration. In order to limit the phase slope, it is necessary to control the phase deviation at 1\%, that is, 3.6 deg (or 0.0628 radian) \cite{Interferometric_Processing_of_Sentinel-1_TOPS_Data}. The phase error of 0.0628 radian is transmitted to the deformation error of 0.027cm, which can be ignored for millimeter-level deformation monitoring. In the case of ideal vertical baseline, the phase error of 0.0628 radian is transmitted to the elevation error of tens of centimeters \cite{Effects_of_Phase_Error_on_the_Relative_Height_Accuracy_in_Interferometric_Synthetic_Aperture_Radar}, which can be ignored for meter-level elevation monitoring. Therefore, the phase deviation is controlled within 1\%, which meets the measurement accuracy requirements. Taking the maximum  of 5.2kHz, the miscoregistration time is 1.92$\rm\mu$s. Taking Azimuth sampling frequency of 486.49 Hz, the miscoregistration time is converted to 0.001 pixel. \par
+
 
 \subsection{ESD}
 
@@ -306,10 +199,12 @@ The essence of geometrical coregistration is to map the master image and slave i
 The precise orbit data provided by European Space Agency (ESA) can control the absolute positioning accuracy of satellite orbit within 5 cm. The orbit evaluation results of S-1 A satellite from 2019 to 2022 are shown in \ref{table_2} \cite{copernicus_review_2015.10-2019.09, copernicus_review_2019.10-2020.01, copernicus_review_2020.02-2020.05, copernicus_review_2020.06-2020.09, copernicus_review_2020.10-2020.12, copernicus_review_2021.01-2021.12, copernicus_review_2022.01-2022.12}. The precision index is the 3D RMS (Root Mean Square) between the Copernicus Precise Orbit Determination (CPOD) and the joint orbit products generated by other institutions. It is noted that the large error from 2019 to 2020 is mainly due to the updated Antenna Reference Point (ARP) and ANTEX (Antenna Exchange Format) configurations used by other institutions. In July 2020, after the ESA approved the update of the S-1 A CPOD configuration, the accuracy met the requirements and gradually became more optimized. \par
 
 \begin{table}[htbp]
+\centering
 \caption{Estimated accuracy of S1-A satellite CPOD products}
 \label{table_2}
-\raggedright % 表格左对齐
-\begin{tabular}{p{0.2\linewidth}p{0.2\linewidth}}
+\footnotesize
+\setstretch{1}
+\begin{tabular}{p{0.25\linewidth}p{0.15\linewidth}}
 \toprule
 Date & 3D RMS(cm) \\ % Table header row
 \midrule
@@ -441,8 +336,12 @@ According to the principle of statistical universality, the experiments in this 
 \end{figure}
 
 \begin{table}[htbp]
+\centering
 \caption{The properties of SAR data}
 \label{table_3}
+\footnotesize
+\setstretch{1}
+\setlength{\tblwidth}{\textwidth}
 % \begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}p{0.16\linewidth}p{0.13\linewidth}p{0.18\linewidth}p{0.05\linewidth}p{0.05\linewidth}p{0.1\linewidth}p{0.11\linewidth}@{}}
 \begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}ccccccc@{}}
 \toprule
@@ -480,15 +379,15 @@ Area 1 (\ref{fig_4a}): Taklamakan desert, which belongs to the plateau and has a
 
 Combined with different considerations, including the study area, satellite flight direction and orbit data, this section established 27 sets of comparative experiments, using 830 images, and actually processing 1179 images. In order to avoid the influence of other operations, this experiment did not carry out optimization steps such as multi-view and filtering. Details of the experimental results are shown in \ref{table_4}. It can be seen that compared the use of different orbit data, although most of the adjusted results have been improved, they are basically on the order of one ten thousandth of a pixel, and there is no significant difference in phase. It is speculated that there may be other reasons, which is discussed in 5 (1). \par
 
-% 该表格考虑加入附件中
-% 先保存当前页面的页边距
-\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
-
 \begin{table}[htbp]
+\centering
 \caption{The interference experiment result}
 \label{table_4}
+\footnotesize
+\begin{threeparttable}
 \begin{minipage}[t]{\linewidth}
 \centering
+\setstretch{1}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\centering\arraybackslash}p{0.11\linewidth}>{\centering\arraybackslash}p{0.18\linewidth}*{9}{>{\centering\arraybackslash}p{0.042\linewidth}} }
 \toprule
 \multicolumn{2}{c}{\centering The serial number of the experiment} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ % Table header row
@@ -521,6 +420,7 @@ Shift & Mean value & -0.31 & -0.36 & 0.21 & -0.30 & 0.28 & 0.43 & 2.78 & -0.51 &
 
 \begin{minipage}[t]{\linewidth}
 \centering
+\setstretch{1}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\centering\arraybackslash}p{0.11\linewidth}>{\centering\arraybackslash}p{0.18\linewidth}*{9}{>{\centering\arraybackslash}p{0.042\linewidth}} }
 \toprule
 \multicolumn{2}{c}{\centering The serial number of the experiment} & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 \\ % Table header row
@@ -553,6 +453,7 @@ Shift & Mean value & -3.25 & 0.61 & 1.27 & 4.88 & 2.06 & 2.47 & -1.02 & -5.35 & 
 
 \begin{minipage}[t]{\linewidth}
 \centering
+\setstretch{1}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\centering\arraybackslash}p{0.11\linewidth}>{\centering\arraybackslash}p{0.18\linewidth}*{9}{>{\centering\arraybackslash}p{0.042\linewidth}} }
 \toprule
 \multicolumn{2}{c}{\centering The serial number of the experiment} & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & 27 \\ % Table header row
@@ -580,10 +481,14 @@ Shift & Mean value & -4.57 & -2.81 & -3.87 & 0.55 & -2.82 & -2.91 & 0.06 & 2.43 
 \bottomrule
 \end{tabular*}
 \end{minipage}
-\end{table}
 
-% 恢复原始的页面页边距
-\restoregeometry
+\begin{tablenotes}\normalsize
+\footnotesize
+    \item[*] Outliers other than $\mu \pm 1.5\sigma$ (probability 86.64\%) are excluded to prevent influencing statistical results.
+\end{tablenotes}
+
+\end{threeparttable}
+\end{table}
 
 Assuming that the interferograms are independent, the azimuth shift difference and phase deviation of all images are calculated by taking the proportion of interferograms as the weight. The statistical result of the difference between the azimuth shift is -0.63±2.12 ($*10^{-3}$) pixel, and the phase deviation is -0.04±0.13 radian. In theory, since geometrical coregistration is mainly affected by the orbit, the coregistration of enough SAR data is in line with the standard normal distribution. However, due to the limitation of data, the mean is not zero. The mean value of the individual results involves a large range, about -0.005 to 0.005 pixel, while the standard deviation is about 0.002 pixel. Considering that coregistration is a relative process, we use the mean as the positioning error of the master image and the standard deviation as the coregistration error of the slave images. If the master image error can be corrected, the coregistration accuracy of the lave images is about 0.002 pixel without correction. The overall result meets the absolute positioning accuracy of 1.5 cm for a single scene image, but there is a difference of about 0.001 pixel with the relative accuracy of coregistration and the coregistration requirements of TOPS mode. The error is discussed in 5 (2). \par
 
@@ -860,10 +765,14 @@ It is challenging to assess whether the phase is accurate by visual criteria alo
 When calculating the azimuth shift by ESD phase, the weight and the number of blocks are involved. Under different settings, the results may be different. Therefore, the interference experiment is carried out with the number of bursts as the independent variable, and the shifts calculated by different number of bursts in the same area are counted and compared. Different types of areas, the Taklamakan desert and Milan, were selected from January 2022 to December 2023, and the results are shown in \ref{table_5}. It can be seen from \ref{table_5} that different shifts are calculated by overlap area between different number of bursts in the same study area. The highest difference of mean is nearly 0.001 pixel, and the highest difference of standard deviation is nearly 0.001 pixel. In the face of the 0.001 pixel coregistration requirement required by TOPS, the above error magnitude cannot be ignored. Theoretically, the offset calculated by the ESD phase is a constant value, but in fact, the offset obtained by using different bursts calculations is different, and the magnitude of the difference between the offsets cannot be ignored. Therefore, it is necessary to pay attention to this when using ESD for fine coregistration, otherwise additional errors may be introduced. \par
 
 \begin{table}[htbp]
+\centering
 \caption{The interference experiment result of different numbers of bursts}
 \label{table_5}
+\footnotesize
+\begin{threeparttable}
 \begin{minipage}[t]{\linewidth}
 \centering
+\setstretch{1}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\centering\arraybackslash}p{0.11\linewidth}>{\centering\arraybackslash}p{0.18\linewidth}*{10}{>{\centering\arraybackslash}p{0.042\linewidth}} }
 \toprule
 \multicolumn{2}{c}{\centering The serial number of the experiment} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ % Table header row
@@ -893,9 +802,10 @@ Shift & Mean value & -0.31 & -0.52 & -0.76 & -0.70 & -0.25 & -0.30 & -0.16 & -0.
 
 \begin{minipage}[t]{\linewidth}
 \centering
+\setstretch{1}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\centering\arraybackslash}p{0.11\linewidth}>{\centering\arraybackslash}p{0.18\linewidth}*{10}{>{\centering\arraybackslash}p{0.042\linewidth}} }
 \toprule
-\multicolumn{2}{c}{\centering The serial number of the experiment} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ % Table header row
+\multicolumn{2}{c}{\centering The serial number of the experiment} & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 \\ % Table header row
 \midrule
 \multirow{2}{1\linewidth}{\centering Study area} & Taklamakan desert \\
  & Milan & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ \\
@@ -917,6 +827,13 @@ Shift & Mean value & -1.44 & -1.44 & -2.08 & -1.02 & -0.64 & -4.09 & -3.32 & -3.
 \bottomrule
 \end{tabular*}
 \end{minipage}
+
+\begin{tablenotes}\normalsize
+\footnotesize
+    \item[*] Outliers other than $\mu \pm 1.5\sigma$ (probability 86.64\%) are excluded to prevent influencing statistical results.
+\end{tablenotes}
+    
+\end{threeparttable}
 \end{table}
 
 In order to be more specific, the offsets of the Taklamakan Desert and Milan in different time ranges are selected as examples to illustrate. Using 9 bursts, there are 8 overlapping areas, each of which is divided into 10 blocks, so there are 8*10 offset results. Visualize the azimuth shift results, as shown in the \ref{fig_7}. Each pixel represents an offset, and the difference between the offsets is judged by the color depth. It can be seen from \ref{fig_7} that the results of different partitions are too different, which directly leads to the decrease of the accuracy of the calculation results. It is impossible to achieve accurate judgment only by image information such as weight, and more external factors need to be considered. \par
@@ -1033,82 +950,29 @@ This paper aims at the coregistration method of S-1 TOPS, calculates the residua
 ESD uses the phase inconsistency of the overlap area between bursts to perform constant offset to achieve coregistration, without considering the existence of many other interference sources in the phase, and is greatly affected by the coherence, which is ultimately reflected in the ESD mismatch accuracy. If the ESD method is used to simply perform a rigid change without considering this effect, it may bring additional coregistration errors to the results. Based on the above content, this paper gives corresponding suggestions. (1) For time series experiments, the influence of orbit error on phase is usually reduced with time series regression analysis. In the secondary coregistration process, the orbit error of the master image can be corrected by calculating the mean value of multiple interferograms, and the use of ESD may introduce additional errors. If you can accurately identify and correct phase artifacts from other sources, you can consider not correcting orbit errors \cite{InSAR_uncertainty_due_to_orbital_errors}. (2) For a single image experiment, the orbit error of the master image cannot be effectively estimated. When ESD must be used, this paper proposes a coregistration method based on phase without resampling, which can save 40\% of the calculation time. \par
 
 
-% Numbered list
-% Use the style of numbering in square brackets.
-% If nothing is used, default style will be taken.
-%\begin{enumerate}[a)]
-%\item 
-%\item 
-%\item 
-%\end{enumerate}  
-
-% Unnumbered list
-%\begin{itemize}
-%\item 
-%\item 
-%\item 
-%\end{itemize}  
-
-% Description list
-%\begin{description}
-%\item[]
-%\item[] 
-%\item[] 
-%\end{description}  
-
-% % Figure
-% \begin{figure}[<options>]
-% 	\centering
-% 		\includegraphics[<options>]{}
-% 	  \caption{}\label{fig1}
-% \end{figure}
+\section*{Funding}
+% This work is supported by the National Natural Science Foundation of China (Grant No. 42104039, 61860206013, 62031005).
 
 
-% \begin{table}[<options>]
-% \caption{}\label{tbl1}
-% \begin{tabular*}{\tblwidth}{@{}LL@{}}
-% \toprule
-%   &  \\ % Table header row
-% \midrule
-%  & \\
-%  & \\
-%  & \\
-%  & \\
-% \bottomrule
-% \end{tabular*}
-% \end{table}
+\section*{CRediT author statement}
+% \textbf{Yuxiao Qin:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Resources, Data Curation, Writing - Original Draft, Writing - Review \& Editing, Visualization, Supervision, Project administration, Funding acquisition.
+% \textbf{Qingjun Zhang:} Conceptualization, Investigation, Resources, Supervision, Project administration.
+% \textbf{Wen Hong:} Conceptualization, Validation, Writing - Review \& Editing, Visualization, Funding acquisition.
+% \textbf{Bing Han:} Methodology, Validation, Formal analysis, Investigation, Resources.
+% \textbf{Fangfang Li:} Formal analysis, Investigation, Resources, Data Curation.
+% \textbf{Mengge Wang:} Methodology, Software, Investigation, Resources, Data Curation, Writing - Original Draft.
 
-% Uncomment and use as the case may be
-%\begin{theorem} 
-%\end{theorem}
+\section*{Declaration of Competing Interest}
+% The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
-% Uncomment and use as the case may be
-%\begin{lemma} 
-%\end{lemma}
+\section*{Data Availability}
+% Intermediate data, time-series results of GF-3 and S-1 in CSV and GeoTIFF format, and code to replicate figures are available upon request.
 
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-%% \appendix
+\section*{Acknowledgments}
+% The authors would like to thank AIRCAS and NSOAS for providing the GF-3 SLC data. The authors would like to thank the European Space Agency's Copernicus Program for providing the Sentinel-1 data.
 
+\bibliographystyle{elsarticle-harv}
+\bibliography{citations}  % Entries are in the refs.bib file
 
-% To print the credit authorship contribution details
-\printcredits
-
-%% Loading bibliography style file
-% \bibliographystyle{model1-num-names}
-\bibliographystyle{cas-model2-names}
-
-% Loading bibliography database
-\bibliography{cas-refs}
-
-% Biography
-\bio{}
-% Here goes the biography details.
-\endbio
-
-% \bio{pic1}
-% % Here goes the biography details.
-% \endbio
 
 \end{document}
-
