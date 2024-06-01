@@ -66,10 +66,10 @@ Sentinel-1 (S-1) is the most profoundly influential and most widely utilized Syn
 
 % Why ESD is important
 
-The essence of ESD is to use the phase difference of the overlapping areas between bursts to obtain the shift required for coregistration. The larger the satellite steering angle is, the more sensitive it is to the coregistration error and the higher the coregistration accuracy is \cite{TOPS_Interferometry_With_TerraSAR-X}. 
+The essence of ESD is to use the phase difference of the overlapping areas between bursts to obtain the shift required for coregistration. The larger the satellite steering angle is, the more sensitive it is to the coregistration error and the higher the coregistration accuracy is \cite{TOPS_Interferometry_With_TerraSAR-X}.
 
 % The flaws of ESD
-Despite its popularity, there are still a few notable unresolved issues with ESD. To start with, ESD is based on the assumption that the ``differential interferogram phase'' used for ESD purely comes from miscoregistration error. However, the assumption does not hold because multiple factors can contribute to the phase difference, for example, north-south ground displacements or APS and ionosphere path delays difference. In most cases, these factors only contribute to a negligible to a small portion of the total ``differential interferogram phase''. Nevertheless, a small bias might still be introduced by applying the ESD. In the second place, the estimation quality of miscoregistration in ESD is based on the coherence of the differential interferogram phase. In places with low coherence, the estimated miscoregistration would be biased by the noise, potentially introducing an estimation error to the final product. In the last place, even if we assume that ESD successfully estimates the miscoregistration error without introducing any more bias or error, another resampling process would still be neccessary for correcting the miscoregistration error. Resampling is usually a very resource-consuming step in InSAR processing, especially nowadays when we are dealing with more data than ever. A second resampling process would be a very heavy burden for big data processing. 
+Despite its popularity, there are still a few notable unresolved issues with ESD. To start with, ESD is based on the assumption that the ``differential interferogram phase'' used for ESD purely comes from miscoregistration error. However, the assumption does not hold because multiple factors can contribute to the phase difference, for example, north-south ground displacements or APS and ionosphere path delays difference. In most cases, these factors only contribute to a negligible to a small portion of the total ``differential interferogram phase''. Nevertheless, a small bias might still be introduced by applying the ESD. In the second place, the estimation quality of miscoregistration in ESD is based on the coherence of the differential interferogram phase. In places with low coherence, the estimated miscoregistration would be biased by the noise, potentially introducing an estimation error to the final product. In the last place, even if we assume that ESD successfully estimates the miscoregistration error without introducing any more bias or error, another resampling process would still be neccessary for correcting the miscoregistration error. Resampling is usually a very resource-consuming step in InSAR processing, especially nowadays when we are dealing with more data than ever. A second resampling process would be a very heavy burden for big data processing.
 
 
 
@@ -101,7 +101,58 @@ In view of the above situation and thinking, this paper uses the ESD method to c
 \section{Theory}
 \label{sec:2}
 
-\subsection{S-1 TOPS Coregistration Accuracy Requirement}
+
+\subsection{Geometrical Coregistration and Accuracy Analysis}
+\subsubsection{Geometrical Coregistration}
+
+The essence of geometrical coregistration is to map the master image and slave image to the Cartesian coordinate system by means of satellite orbit information and external digital elevation model (DEM), and then calculate the shift according to the Cartesian coordinate to achieve coregistration. Geometrical coregistration does not rely on coherence, and the coregistration accuracy can be satisfied with the help of external data. Therefore, in fact, the residual error after geometrical coregistration is a constant displacement, which mainly comes from the orbital error. The coregistration error in the azimuth is expressed as \cite{Geometrical_SAR_image_registration}: \par
+
+\begin{equation}
+    \delta_{\rm az} = \hat{v} \cdot \frac{\delta_{S_0}}{\Delta^{({\rm az})}}
+    \label{eq_8}
+\end{equation}
+
+\noindent where $\hat{v}$ is the velocity unit vectors for master image, $\Delta^{({\rm az})}$ is the azimuth sampling spacing (in meters) for master image, and $S_0$ is the shift along the orbital direction between master orbit and slave orbit. This means that the geometrical coregistration error is proportional to the shift along the orbital direction. \par
+The precise orbit data provided by European Space Agency (ESA) can control the absolute positioning accuracy of satellite orbit within 5 cm. The orbit evaluation results of S-1 A satellite from 2019 to 2022 are shown in \ref{table_2} \cite{copernicus_review_2015.10-2019.09, copernicus_review_2019.10-2020.01, copernicus_review_2020.02-2020.05, copernicus_review_2020.06-2020.09, copernicus_review_2020.10-2020.12, copernicus_review_2021.01-2021.12, copernicus_review_2022.01-2022.12}. The precision index is the 3D RMS (Root Mean Square) between the Copernicus Precise Orbit Determination (CPOD) and the joint orbit products generated by other institutions. It is noted that the large error from 2019 to 2020 is mainly due to the updated Antenna Reference Point (ARP) and ANTEX (Antenna Exchange Format) configurations used by other institutions. In July 2020, after the ESA approved the update of the S-1 A CPOD configuration, the accuracy met the requirements and gradually became more optimized. \par
+
+\begin{table}[htbp]
+\centering
+\caption{Estimated accuracy of S1-A satellite CPOD products}
+\label{table_2}
+\footnotesize
+\setstretch{1}
+\begin{tabular}{p{0.25\linewidth}p{0.15\linewidth}}
+\toprule
+Date & 3D RMS(cm) \\ % Table header row
+\midrule
+2019.02-2019.05 & 1.44 \\
+2019.06-2019.09 & 6.29 \\
+2019.10-2020.01 & 6.36 \\
+2020.02-2020.05 & 6.37 \\
+2020.06-2020.09 & 4.18 \\
+2020.10-2020.12 & 1.46 \\
+2021.01-2021.12 & 0.48 \\
+2022.01-2022.12 & 0.60 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+From \ref{eq_8}, assuming that master orbit and slave orbit are independent, the geometrical coregistration accuracy in the azimuth can be expressed as: \par
+
+\begin{equation}
+    \sigma_{\rm az} = \sqrt{\sigma_m^2 + \sigma_s^2}
+    \label{eq_9}
+\end{equation}
+
+\noindent where $\sigma_m$ and $\sigma_s$ are the accuracy of master orbit and slave orbit. The RMS of the SAR satellite orbit in the report is used as the estimation of $\sigma_m$ and $\sigma_s$ \cite{InSAR_uncertainty_due_to_orbital_errors}. Then, taking the 3D RMS of the track as 1.5cm, the geometrical coregistration accuracy will be better than 2.12cm. From \ref{table_1}, the azimuth pixel sampling is 14.1m, and the geometrical coregistration accuracy can be converted to 0.0015 pixel. \par
+
+\subsubsection{Accuracy Analysis}
+ TBA
+
+
+\subsection{Enhanced Spectral Diversity and Accuracy Analysis}
+\subsubsection{ESD}
+
 The S-1 satellite mission is to provide an all-weather, day-and-night supply of imagery of Earth’s surface. Among them, TOPS pattern for S-1 Interferometric Wide swath (IW) mode is the main acquisition mode on land, which meets the needs of large-scale land system monitoring, and is also the target mode of this paper. The TOPS pattern for S-1 IW mode is shown in \ref{fig_1}. The corresponding parameters are shown in \ref{table_1}. It can be seen from \ref{fig_1} that in TOPS mode, the satellite has the characteristics of squint imaging, that is, there is squint angle. The greater the change of the squint angle in the azimuth direction, the more obvious the interference phase difference will be generated, which is also called the phase slope. Fundamentally, the sweeping of antenna introduces a quadratic Doppler frequency in azimuth that exceeds the Pulse Repetition Frequency (PRF). Especially at the burst edge, the phase ramp phenomenon is the most obvious, which will lead to interferogram distortion. Therefore, this pattern requires higher coregistration accuracy \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts}. \par
 
 \begin{figure}
@@ -157,7 +208,7 @@ The miscoregistration time  between the master image and the slave image causes 
 \noindent where $\Delta f_{\rm DC}$ is Doppler centroid span over azimuth, $f_{\rm az}$ is azimuth sampling frequency, and $\Delta x$ is the pixel miscoregistration. In order to limit the phase slope, it is necessary to control the phase deviation at 1\%, that is, 3.6 deg (or 0.0628 radian) \cite{Interferometric_Processing_of_Sentinel-1_TOPS_Data}. The phase error of 0.0628 radian is transmitted to the deformation error of 0.027cm, which can be ignored for millimeter-level deformation monitoring. In the case of ideal vertical baseline, the phase error of 0.0628 radian is transmitted to the elevation error of tens of centimeters \cite{Effects_of_Phase_Error_on_the_Relative_Height_Accuracy_in_Interferometric_Synthetic_Aperture_Radar}, which can be ignored for meter-level elevation monitoring. Therefore, the phase deviation is controlled within 1\%, which meets the measurement accuracy requirements. Taking the maximum  of 5.2kHz, the miscoregistration time is 1.92$\rm\mu$s. Taking Azimuth sampling frequency of 486.49 Hz, the miscoregistration time is converted to 0.001 pixel. \par
 
 
-\subsection{ESD}
+\subsubsection{Accuracy Analysis}
 
 The S-1 TOPS mode uses the ESD for high-precision coregistration, as shown in \ref{fig_2}. The S-1 TOPS mode has about 7\% to 8\% overlap between adjacent bursts in the azimuth direction. The target is observed twice in the overlap area, then the cross-interferogram is: \par
 
@@ -212,101 +263,11 @@ From \ref{eq_3}, when ignoring the covariance between the two bursts and assumin
 
 \noindent where $N$ is the number of independent averaged samples and $\gamma$ is the interferometric coherence. Relevant research gives the results of the relationship between ESD miscoregistration accuracy and coherence under different sample sizes \cite{A_Network-Based_Enhanced_Spectral_Diversity_Approach_for_TOPS_Time-Series_Analysis}.
 
-\subsection{The Relationship between Geometrical Coregistration Accuracy and Orbit Accuracy}
-The essence of geometrical coregistration is to map the master image and slave image to the Cartesian coordinate system by means of satellite orbit information and external digital elevation model (DEM), and then calculate the shift according to the Cartesian coordinate to achieve coregistration. Geometrical coregistration does not rely on coherence, and the coregistration accuracy can be satisfied with the help of external data. Therefore, in fact, the residual error after geometrical coregistration is a constant displacement, which mainly comes from the orbital error. The coregistration error in the azimuth is expressed as \cite{Geometrical_SAR_image_registration}: \par
-
-\begin{equation}
-    \delta_{\rm az} = \hat{v} \cdot \frac{\delta_{S_0}}{\Delta^{({\rm az})}}
-    \label{eq_8}
-\end{equation}
-
-\noindent where $\hat{v}$ is the velocity unit vectors for master image, $\Delta^{({\rm az})}$ is the azimuth sampling spacing (in meters) for master image, and $S_0$ is the shift along the orbital direction between master orbit and slave orbit. This means that the geometrical coregistration error is proportional to the shift along the orbital direction. \par
-The precise orbit data provided by European Space Agency (ESA) can control the absolute positioning accuracy of satellite orbit within 5 cm. The orbit evaluation results of S-1 A satellite from 2019 to 2022 are shown in \ref{table_2} \cite{copernicus_review_2015.10-2019.09, copernicus_review_2019.10-2020.01, copernicus_review_2020.02-2020.05, copernicus_review_2020.06-2020.09, copernicus_review_2020.10-2020.12, copernicus_review_2021.01-2021.12, copernicus_review_2022.01-2022.12}. The precision index is the 3D RMS (Root Mean Square) between the Copernicus Precise Orbit Determination (CPOD) and the joint orbit products generated by other institutions. It is noted that the large error from 2019 to 2020 is mainly due to the updated Antenna Reference Point (ARP) and ANTEX (Antenna Exchange Format) configurations used by other institutions. In July 2020, after the ESA approved the update of the S-1 A CPOD configuration, the accuracy met the requirements and gradually became more optimized. \par
-
-\begin{table}[htbp]
-\centering
-\caption{Estimated accuracy of S1-A satellite CPOD products}
-\label{table_2}
-\footnotesize
-\setstretch{1}
-\begin{tabular}{p{0.25\linewidth}p{0.15\linewidth}}
-\toprule
-Date & 3D RMS(cm) \\ % Table header row
-\midrule
-2019.02-2019.05 & 1.44 \\
-2019.06-2019.09 & 6.29 \\
-2019.10-2020.01 & 6.36 \\
-2020.02-2020.05 & 6.37 \\
-2020.06-2020.09 & 4.18 \\
-2020.10-2020.12 & 1.46 \\
-2021.01-2021.12 & 0.48 \\
-2022.01-2022.12 & 0.60 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-From \ref{eq_8}, assuming that master orbit and slave orbit are independent, the geometrical coregistration accuracy in the azimuth can be expressed as: \par
-
-\begin{equation}
-    \sigma_{\rm az} = \sqrt{\sigma_m^2 + \sigma_s^2}
-    \label{eq_9}
-\end{equation}
-
-\noindent where $\sigma_m$ and $\sigma_s$ are the accuracy of master orbit and slave orbit. The RMS of the SAR satellite orbit in the report is used as the estimation of $\sigma_m$ and $\sigma_s$ \cite{InSAR_uncertainty_due_to_orbital_errors}. Then, taking the 3D RMS of the track as 1.5cm, the geometrical coregistration accuracy will be better than 2.12cm. From \ref{table_1}, the azimuth pixel sampling is 14.1m, and the geometrical coregistration accuracy can be converted to 0.0015 pixel. \par
 
 
-\section{Method}
 
-\subsection{The Master Image Correction Method}
+\section{Methods and Dataset}
 
-Coregistration is a relative process in which the corresponding points of the master and slave image correspond to the same resolution unit. From \ref{eq_8}, it can be seen that the geometrical coregistration error is proportional to the shift along the orbital direction between master orbit and slave orbit. There is a set of SAR images, and the geometrical coregistration error range is: \par
-
-\begin{equation}
-    \mu_m \pm \sigma
-    \label{eq_10}
-\end{equation}
-
-\noindent where $\mu_m$ is the coregistration error of the master image along the track direction, and $\sigma$ is the degree of dispersion of all slave images relative to the master image. If only the master image is corrected with high precision, the coregistration error of the slave image can be ignored. The geometrical coregistration error is: \par
-
-\begin{equation}
-    \sigma_{\rm az} = \sigma
-    \label{eq_11}
-\end{equation}
-
-\noindent Therefore, when the orbit control of the slave image is good, only the correction of the master image after geometrical coregistration can meet the requirements of high-precision coregistration. \par
-
-\subsection{The Coregistration Method Based on Phase without Resampling}
-
-According to the TOPS impulse response function, assuming that the beam-center time $t_c$ is 0, the phase difference between the master image and slave image is: \par
-
-\begin{equation}
-\begin{split}
-s_s(t + \Delta t) \cdot s_m^*(t) = & s_{a, s}(t + \Delta t) \cdot s_{a, m}(t)  \\
-& \cdot {\rm exp} \{-j \frac{4 \pi}{\lambda} \Delta R\} \cdot {\rm exp} \{j 2 \pi K t \Delta t\} \\
-& \cdot {\rm exp} \{ j \pi K \Delta t^2\}
-\end{split}
-\label{eq_12}
-\end{equation}
-
-\noindent where $s_a$ is amplitude function, and $t$ is the azimuth zero Doppler time. In general, the value of the miscoregistration time $\Delta t$ is very small, so the changes of $s_a$ and ${\rm exp} \{ j \pi K \Delta t^2\}$ can be ignored. Thus, the following can be obtained: \par
-
-\begin{equation}
-    s_s(t + \Delta t) \cdot s_m^*(t) = {\rm exp} \{-j \frac{4 \pi}{\lambda} \Delta R\} \cdot {\rm exp} \{j 2 \pi K t \Delta t\}
-    \label{eq_13}
-\end{equation}
-
-\noindent There is an observation $s_s(t + \Delta t) \cdot s_m^*(t)$ and two unknowns $\Delta R$ and $\Delta t$. When another measurement is performed, two observations are obtained, and the unique solution of the two unknowns can be solved. \par
-Bring \ref{eq_3} into \ref{eq_13}, for a single image can be obtained: \par
-
-\begin{equation}
-    s(t) = s(t + \Delta t) \cdot {\rm exp} \{-j \phi_{\rm ESD} \frac{t}{t_1 - t_2}\}
-    \label{eq_14}
-\end{equation}
-
-\noindent From \ref{eq_14}, the coregistration can be completed by the product of the miscoregistration image and the function of the azimuth time. In theory, ESD does not need to resample to correct the miscoregistration time $\Delta t$, which greatly improves the computational efficiency. \par
-
-
-\section{Experiment}
 
 The S-1 IW TOPS mode is affected by the change of Doppler frequency, and requires a coregistration accuracy of at least 0.001 pixel. In recent years, the official report of ESA shows that the 3D RMS of the precise orbit data has been better than 1.5cm. In theory, the geometrical coregistration accuracy can meet 0.0015 pixel, and there is no need for ESD secondary resampling. Therefore, this section conducts experimental research. The main purpose is to explore whether the residual error after coregistration of precise orbit data with higher precision is within an acceptable range, and to judge the necessity of ESD. \par
 
@@ -399,6 +360,14 @@ Area & Flight Direction & Start Date - End Date & Path & Frame & IW \& Burst & P
 \end{table}
 
 Area 1 (\ref{fig_4a}): Taklamakan desert, which belongs to the plateau and has a dry climate. The quality of the overall coherence in the region is uniform, and there are rivers and traffic lines to determine the geographical location of the pixel. It is a relatively ideal test. Area 2 (\ref{fig_4b}): Mexico City, located in low latitudes. In the past 50 years, the process of ‘urbanization’ has been faster \cite{Urban_growth_and_land_subsidence:_Multi-decadal_investigation_using_human_settlement_data_and_satellite_InSAR_in_Morelia_Mexico}. There is also a certain vegetation coverage in the area, but the city is dominant. The coherence is high, which belongs to the city-led test. Area 3 (\ref{fig_4c}): Xi’an, located in the middle latitudes. The city is located in the basin, and the south is close to the Qinling Mountains, which belongs to the test of city and mountain. Area 4 (\ref{fig_4d}): Milan, located in the middle latitudes. Located in Po Valley, the surrounding cities are dense. There are vegetation coverage areas, and the boundary between urban and non-urban areas is obvious, which belongs to the test of urban and vegetation. Area 5 (\ref{fig_4e}): Finland. The region is mainly concentrated in the urban agglomerations of southern Finland, but the forest coverage is very high and the southern coast. The overall coherence is low, which belongs to the vegetation-dominated test. \par
+
+\subsection{Platform}
+
+\subsection{Workflow}
+
+
+\section{Results}
+
 
 \subsection{Interference Experiment Result and Analysis}
 
@@ -945,6 +914,8 @@ In order to be more specific, the offsets of the Taklamakan Desert and Milan in 
 
 \section{Discussion}
 
+\subsection{TBA}
+
 In this paper, the residual error after geometrical coregistration is judged by comparing the the azimuth shift difference and phase deviation. Importantly, in the experiment, we found two points of interest that need to be discussed in detail. \par
 
 (1) The experimental results show that the residual error of geometrical coregistration does not decrease significantly from 2019 to 2020 regardless of the precise orbit data before and after adjustment. Taking the Milan ascending and descending experiments from May 2019 to September 2020 as an example, we calculate the difference between the azimuth shift of the slave images relative to the master image before and after the precise orbit configuration, as shown in the \ref{fig_8}. It can be seen from the \ref{fig_8} that the adjustment of the instantaneous position of the satellite in the azimuth direction is controlled within 4cm. Interference experiments show that the adjustment of this order of magnitude will not have a significant impact on geometrical coregistration. In addition, the same ARP and ANTEX configurations are not strictly used in the accuracy index during this period, and it is speculated that the accuracy of the control of the orbit itself may meet the requirements. Coregistration is a relative quantity between the master image and the slave image, while the orbit positioning accuracy is an absolute quantity. The \ref{eq_9} shows the mathematical relationship between the two, and most of the experimental results are within the accuracy range. \par
@@ -968,6 +939,57 @@ In this paper, the residual error after geometrical coregistration is judged by 
 \end{figure}
 
 (2) After geometrical coregistration using precise orbit data with higher precision, the residual error is theoretically derived to be 0.0015 pixel by \ref{eq_9}, but the experimental results show that there is still an error of 0.002 to 0.003 pixel. The gap between theory and practice may be caused by factors from other sources. The premise of estimating geometrical coregistration error by ESD phase is to assume that the contribution of atmospheric phase screen (APS) and DEM error can be ignored \cite{Sentinel-1_precise_orbit_calibration_and_validation}. In some studies, it is suggested to use the stable overlap area between bursts to estimate the residual coregistration error \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts}. However, the actual ESD phase is not so ideal. In particular, under the requirement of TOPS high-precision coregistration, small phase errors cannot be ignored. On the one hand, the contribution of APS, such as water vapor delay and ionospheric disturbance, cannot be ignored. Previous studies have shown that the ionospheric phase screen can produce local azimuth delay in the image \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts}. On the other hand, any geophysical signal expressed in an almost constant manner in the monitoring scene cannot be separated from the geometrical error during coregistration \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts}. In addition to the above factors, it also includes the bistatic effects, frequency modulation rate miscoregistration, etc \cite{The_Extended_Timing_Annotation_Dataset_for_Sentinel-1—Product_Description_and_First_Evaluation_Results}. We call all the above factors as noise. In some studies, the spatio-temporal variability of the noise component in the data is described in detail by establishing a model of the spatio-temporal correlation between InSAR deformation monitoring \cite{Integrated_monitoring_of_subsidence_due_to_hydrocarbon_production:_consolidating_the_foundation, Radar_Interferometry_Data_Interpretation_and_Error_Analysis}. The essence of ESD phase is similar to InSAR deformation monitoring. For the S-1 TOPS IW data, the overlap area between the two bursts is about 14km in the azimuth direction. The standard deviation of the reference spatio-temporal variability is about 4mm, and the millimeter-scale deformation is calculated to the order of 0.001 to 0.01 pixel by \ref{eq_1}. The above errors can be classified as spatio-temporal variabi. \par
+
+
+
+
+\subsection{The Master Image Correction Method}
+
+Coregistration is a relative process in which the corresponding points of the master and slave image correspond to the same resolution unit. From \ref{eq_8}, it can be seen that the geometrical coregistration error is proportional to the shift along the orbital direction between master orbit and slave orbit. There is a set of SAR images, and the geometrical coregistration error range is: \par
+
+\begin{equation}
+    \mu_m \pm \sigma
+    \label{eq_10}
+\end{equation}
+
+\noindent where $\mu_m$ is the coregistration error of the master image along the track direction, and $\sigma$ is the degree of dispersion of all slave images relative to the master image. If only the master image is corrected with high precision, the coregistration error of the slave image can be ignored. The geometrical coregistration error is: \par
+
+\begin{equation}
+    \sigma_{\rm az} = \sigma
+    \label{eq_11}
+\end{equation}
+
+\noindent Therefore, when the orbit control of the slave image is good, only the correction of the master image after geometrical coregistration can meet the requirements of high-precision coregistration. \par
+
+\subsection{The Coregistration Method Based on Phase without Resampling}
+
+According to the TOPS impulse response function, assuming that the beam-center time $t_c$ is 0, the phase difference between the master image and slave image is: \par
+
+\begin{equation}
+\begin{split}
+s_s(t + \Delta t) \cdot s_m^*(t) = & s_{a, s}(t + \Delta t) \cdot s_{a, m}(t)  \\
+& \cdot {\rm exp} \{-j \frac{4 \pi}{\lambda} \Delta R\} \cdot {\rm exp} \{j 2 \pi K t \Delta t\} \\
+& \cdot {\rm exp} \{ j \pi K \Delta t^2\}
+\end{split}
+\label{eq_12}
+\end{equation}
+
+\noindent where $s_a$ is amplitude function, and $t$ is the azimuth zero Doppler time. In general, the value of the miscoregistration time $\Delta t$ is very small, so the changes of $s_a$ and ${\rm exp} \{ j \pi K \Delta t^2\}$ can be ignored. Thus, the following can be obtained: \par
+
+\begin{equation}
+    s_s(t + \Delta t) \cdot s_m^*(t) = {\rm exp} \{-j \frac{4 \pi}{\lambda} \Delta R\} \cdot {\rm exp} \{j 2 \pi K t \Delta t\}
+    \label{eq_13}
+\end{equation}
+
+\noindent There is an observation $s_s(t + \Delta t) \cdot s_m^*(t)$ and two unknowns $\Delta R$ and $\Delta t$. When another measurement is performed, two observations are obtained, and the unique solution of the two unknowns can be solved. \par
+Bring \ref{eq_3} into \ref{eq_13}, for a single image can be obtained: \par
+
+\begin{equation}
+    s(t) = s(t + \Delta t) \cdot {\rm exp} \{-j \phi_{\rm ESD} \frac{t}{t_1 - t_2}\}
+    \label{eq_14}
+\end{equation}
+
+\noindent From \ref{eq_14}, the coregistration can be completed by the product of the miscoregistration image and the function of the azimuth time. In theory, ESD does not need to resample to correct the miscoregistration time $\Delta t$, which greatly improves the computational efficiency. \par
 
 
 \section{Conclusion}
