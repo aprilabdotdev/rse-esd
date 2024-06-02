@@ -95,7 +95,7 @@ The geometrical coregistration is one of the most widely-applied coregistration 
 
 In historical studies, the ESD method has been applied to TerraSAR-X and S-1 data processing, and has shown good coregistration results \cite{Interferometry_with_TOPS:_coregistration_and_azimuth_shifts, Interferometric_Processing_of_Sentinel-1_TOPS_Data}. The network-based ESD method estimates mismatches by overlapping interferograms of short-term baselines, reducing the negative impact of temporal coherence \cite{A_Network-Based_Enhanced_Spectral_Diversity_Approach_for_TOPS_Time-Series_Analysis}. At present, ESD has become a very critical step in TOPS mode data processing with its extremely high coregistration accuracy.
 
-In view of the above situation and thinking, this paper uses the ESD method to calculate the residual error of geometrical coregistration with the assistance of the precision orbit data released by the ESA, judges and evaluates the necessity of the ESD method with the assistance of higher precision orbit data, and studies the method of improving the coregistration efficiency. In the part of ‘Theory’, the requirements of S-1 TOPS coregistration are introduced, and the relationship between geometrical coregistration, ESD and precise orbit data is described. In the part of ‘Method’, the master image correction method and the coregistration method based on phase without resampling are proposed, which greatly improves the coregistration efficiency. In the part of ‘Experiment’, through the interference comparison experiment of a large number of data, the influence of precise orbit data on the residual error of geometrical coregistration is analyzed, and the reliability of ESD results is judged. Finally, the change and magnitude of residual error are explained, and the necessity of ESD is suggested.
+In view of the above situation and thinking, this paper uses the ESD method to calculate the residual error of geometrical coregistration with the assistance of the precision orbit data released by the ESA, judges and evaluates the necessity of the ESD method with the assistance of higher precision orbit data, and studies the method of improving the coregistration efficiency. In the part of ``Theory'', the requirements of S-1 TOPS coregistration are introduced, and the relationship between geometrical coregistration, ESD and precise orbit data is described. In the part of ``Method'', the master image correction method and the coregistration method based on phase without resampling are proposed, which greatly improves the coregistration efficiency. In the part of ``Experiment'', through the interference comparison experiment of a large number of data, the influence of precise orbit data on the residual error of geometrical coregistration is analyzed, and the reliability of ESD results is judged. Finally, the change and magnitude of residual error are explained, and the necessity of ESD is suggested.
 
 
 \section{Theory}
@@ -158,6 +158,7 @@ The S-1 satellite mission is to provide an all-weather, day-and-night supply of 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\textwidth]{figure/TOPS Scan pattern for S-1 IW mode.png}
+	% \includegraphics[width=0.8\textwidth]{figure/tops_pattern_for_s1_iw.png}
 	\caption{TOPS Scan pattern for S-1 IW mode}
 	\label{fig_1}%
 \end{figure}
@@ -188,7 +189,7 @@ Doppler centroid span &
 \end{tabular} \\
 Azimuth pixel spacing & 14.1m \\
 Azimuth sampling frequency & 486.49Hz \\
-Squint angle & 0.6deg \\
+Squint angle & $0.6^{\circ}$ \\
 Burst length & 2.75s \\
 Ground swath width & 250km \\
 Slice length & 170km \\
@@ -271,7 +272,7 @@ From \ref{eq_3}, when ignoring the covariance between the two bursts and assumin
 
 The S-1 IW TOPS mode is affected by the change of Doppler frequency, and requires a coregistration accuracy of at least 0.001 pixel. In recent years, the official report of ESA shows that the 3D RMS of the precise orbit data has been better than 1.5cm. In theory, the geometrical coregistration accuracy can meet 0.0015 pixel, and there is no need for ESD secondary resampling. Therefore, this section conducts experimental research. The main purpose is to explore whether the residual error after coregistration of precise orbit data with higher precision is within an acceptable range, and to judge the necessity of ESD. \par
 
-Based on background investigation and theoretical analysis, the factors that need to be considered in the experiment are divided into three categories. The first category is the study area, including the study area with different coherence and the study area located at different latitudes. The second category is SAR data, including ascending or descending, and different numbers of bursts. The third category is precise orbit data, including data before adjustment configuration from 2019 to 2020, data updated after adjustment configuration from 2019 to 2020, and data with higher precision from 2022 to 2023. The above different factors were compared, and Shuttle Radar Topography Mission (SRTM) 30m was used as external DEM data. Since the accuracy of ESD coregistration is very high, the ESD result is used as the reference value of the ‘true value’ in this experiment. Therefore, the azimuth shift difference and phase deviation between the geometrical coregistration result and the reference value are used as the quantitative evaluation indexes of the residual error, and the cross-interferogram between the geometrical coregistration result and the reference value is used as the qualitative evaluation index of the residual error. The experimental design was two groups, as shown in \ref{fig_3}. \par
+Based on background investigation and theoretical analysis, the factors that need to be considered in the experiment are divided into three categories. The first category is the study area, including the study area with different coherence and the study area located at different latitudes. The second category is SAR data, including ascending or descending, and different numbers of bursts. The third category is precise orbit data, including data before adjustment configuration from 2019 to 2020, data updated after adjustment configuration from 2019 to 2020, and data with higher precision from 2022 to 2023. The above different factors were compared, and Shuttle Radar Topography Mission (SRTM) 30m was used as external DEM data. Since the accuracy of ESD coregistration is very high, the ESD result is used as the reference value of the ``true value'' in this experiment. Therefore, the azimuth shift difference and phase deviation between the geometrical coregistration result and the reference value are used as the quantitative evaluation indexes of the residual error, and the cross-interferogram between the geometrical coregistration result and the reference value is used as the qualitative evaluation index of the residual error. The experimental design was two groups, as shown in \ref{fig_3}. \par
 
 \begin{figure}
 	\centering
@@ -282,7 +283,7 @@ Based on background investigation and theoretical analysis, the factors that nee
 
 \subsection{Data}
 
-According to the principle of statistical universality, the experiments in this section select five research areas with different correlations and located in different latitudes, including the regions of Taklamakan Desert, Mexico City, Xi’an, Milan and Finland. SAR data covering the above five research areas are shown in \ref{fig_4} (the SAR data of different coverage areas are represented by the name of the study area). The properties of data are shown in \ref{table_3}. The monitoring time includes two periods, from May 2019 to September 2020 and from January 2022 to December 2023. \par
+According to the principle of statistical universality, the experiments in this section select five research areas with different correlations and located in different latitudes, including the regions of Taklamakan Desert, Mexico City, Xi'an, Milan and Finland. SAR data covering the above five research areas are shown in \ref{fig_4} (the SAR data of different coverage areas are represented by the name of the study area). The properties of data are shown in \ref{table_3}. The monitoring time includes two periods, from May 2019 to September 2020 and from January 2022 to December 2023. \par
 
 \begin{figure}
     \centering

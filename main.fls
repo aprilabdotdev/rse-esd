@@ -1,8 +1,8 @@
-PWD /Users/yuxiao/Documents/Workspace/2024p4
+PWD /Users/yuxiao/Documents/Papers/2024p4
 INPUT /usr/local/texlive/2023/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/yuxiao/Documents/Workspace/2024p4/main.tex
+INPUT /Users/yuxiao/Documents/Papers/2024p4/main.tex
 OUTPUT main.log
 INPUT ./elsarticle.cls
 INPUT ./elsarticle.cls
@@ -928,6 +928,7 @@ INPUT figure/SAR data coverage/Finland.png
 INPUT ./figure/SAR data coverage/Finland.png
 INPUT ./figure/SAR data coverage/Finland.png
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./figure/The cross-interferogram/cross_interf_TaklimakanDesert_asc.png
 INPUT ./figure/The cross-interferogram/cross_interf_TaklimakanDesert_asc.png
 INPUT figure/The cross-interferogram/cross_interf_TaklimakanDesert_asc.png
@@ -1118,7 +1119,6 @@ INPUT ./figure/The coherence/coh_Finland_des_esd1_histogram_.png
 INPUT figure/The coherence/coh_Finland_des_esd1_histogram_.png
 INPUT ./figure/The coherence/coh_Finland_des_esd1_histogram_.png
 INPUT ./figure/The coherence/coh_Finland_des_esd1_histogram_.png
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./figure/The azimuth shift/shift_Milan_asc_20220626.png
 INPUT ./figure/The azimuth shift/shift_Milan_asc_20220626.png
 INPUT figure/The azimuth shift/shift_Milan_asc_20220626.png
